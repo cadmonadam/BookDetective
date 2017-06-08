@@ -11,6 +11,11 @@ import android.widget.TextView;
  * Created by Adam Cadmon on 2017. 06. 07..
  */
 
+/**
+ * {@link BooksAdapter} can provide the layout for each list item
+ * based on a data source, which is a list of {@link Book} objects.
+ */
+
 public class BooksAdapter extends ArrayAdapter<Book> {
 
     public BooksAdapter(Context context, int resource) {
@@ -22,7 +27,7 @@ public class BooksAdapter extends ArrayAdapter<Book> {
 
         Book book = getItem(position);
 
-        if (view == null){
+        if (view == null) {
             view = LayoutInflater.from(getContext()).inflate(
                     R.layout.list_item, parent, false);
         }

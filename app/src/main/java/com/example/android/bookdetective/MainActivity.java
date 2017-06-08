@@ -27,12 +27,11 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    static final String SEARCH_RESULTS = "booksSearchResults";
     EditText editText;
-    ImageButton imageButton;
     BooksAdapter adapter;
     ListView listView;
     TextView textNoDataFound;
-    static final String SEARCH_RESULTS = "booksSearchResults";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +47,10 @@ public class MainActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        fab.setOnClickListener( new View.OnClickListener() {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isInternetConnectionAvailable()){
+                if (isInternetConnectionAvailable()) {
                     BookAsyncTask task = new BookAsyncTask();
                     task.execute();
                 } else {
@@ -67,15 +66,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private boolean isInternetConnectionAvailable(){
+    private boolean isInternetConnectionAvailable() {
         ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         return activeNetwork.isConnectedOrConnecting();
     }
 
-    private void updateUi(List<Book> books){
-        if (books.isEmpty()){
-            // if no books found, show a message
+    private void updateUi(List<Book> books) {
+        if (books.isEmpty()) {
+            // Show a message if no books were found.
             textNoDataFound.setVisibility(View.VISIBLE);
         } else {
             textNoDataFound.setVisibility(View.GONE);
@@ -90,9 +89,19 @@ public class MainActivity extends AppCompatActivity {
 
     private String getUrlForHttpRequest() {
         final String baseUrl = "https://www.googleapis.com/books/v1/volumes?q=search+";
-        String formatUserInput = getUserInput().trim().replaceAll("\\s+","+");
+        String formatUserInput = getUserInput().trim().replaceAll("\\s+", "+");
         String url = baseUrl + formatUserInput;
         return url;
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Book[] books = new Book[adapter.getCount()];
+        for (int i = 0; i < books.length; i++) {
+            books[i] = adapter.getItem(i);
+        }
+        outState.putParcelableArray(SEARCH_RESULTS, (Parcelable[]) books);
     }
 
     private class BookAsyncTask extends AsyncTask<URL, Void, List<Book>> {
@@ -132,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
         private String makeHttpRequest(URL url) throws IOException {
             String jsonResponse = "";
 
-            if (url == null){
+            if (url == null) {
                 return jsonResponse;
             }
 
@@ -145,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                 urlConnection.setReadTimeout(10000 /* milliseconds */);
                 urlConnection.setConnectTimeout(15000 /* milliseconds */);
                 urlConnection.connect();
-                if (urlConnection.getResponseCode() == 200){
+                if (urlConnection.getResponseCode() == 200) {
                     inputStream = urlConnection.getInputStream();
                     jsonResponse = readFromStream(inputStream);
                 } else {
@@ -184,18 +193,8 @@ public class MainActivity extends AppCompatActivity {
                 return null;
             }
 
-            List<Book> books =  QueryUtils.extractBooks(json);
+            List<Book> books = QueryUtils.extractBooks(json);
             return books;
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        Book[] books = new Book[adapter.getCount()];
-        for (int i = 0; i < books.length; i++) {
-            books[i] = adapter.getItem(i);
-        }
-        outState.putParcelableArray(SEARCH_RESULTS, (Parcelable[]) books);
     }
 }

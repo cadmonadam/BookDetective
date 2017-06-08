@@ -2,21 +2,15 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="@dimen/activity_vertical_margin"
+    style="@style/activityMainRelativeLayout"
     tools:context="com.example.android.bookdetective.MainActivity">
 
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="16dp"
-        android:clickable="true"
+        style="@style/searchFabButton"
         app:backgroundTint="@android:color/holo_orange_dark"
         app:fabSize="normal"
-        android:layout_alignParentRight="true"
         app:rippleColor="@android:color/holo_blue_dark"
         app:srcCompat="@android:drawable/ic_search_category_default"
         tools:layout_editor_absoluteX="320dp"
@@ -24,32 +18,19 @@
 
     <EditText
         android:id="@+id/editText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="@string/search_hint"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:inputType="text"
-        android:paddingLeft="@dimen/activity_horizontal_margin" />
+        style="@style/editTextSearch"
+        android:hint="@string/search_hint" />
 
 
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
         android:id="@+id/text_no_data_found"
+        style="@style/textViewNoData"
         android:text="@string/noDataFound"
-        android:layout_below="@+id/editText"
-        tools:visibility="visible"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        style="@style/title"/>
+        tools:visibility="visible" />
 
     <ListView
         android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/text_no_data_found">
+        style="@style/ListView">
 
     </ListView>
 

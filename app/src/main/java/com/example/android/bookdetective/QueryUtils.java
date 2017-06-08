@@ -24,7 +24,7 @@ public class QueryUtils {
             return null;
         }
 
-        for (int i = 0; i < authorsList.length(); i++){
+        for (int i = 0; i < authorsList.length(); i++) {
             if (i == 0) {
                 authorsListInString = authorsList.getString(0);
             } else {
@@ -48,7 +48,7 @@ public class QueryUtils {
             }
             JSONArray jsonArray = jsonResponse.getJSONArray("items");
 
-            for (int i = 0; i < jsonArray.length(); i++){
+            for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject bookObject = jsonArray.getJSONObject(i);
 
                 JSONObject bookInfo = bookObject.getJSONObject("volumeInfo");

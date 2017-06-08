@@ -8,24 +8,14 @@ import android.os.Parcelable;
  */
 
 /**
+ * {@link Book} a custom class which represents a Book that the user searched for.
+ * It contains basic information: the author and the title of the book.
  * Using the Parcelable protocol and interface in order to read and write the object from Parcels
  * with the help of CREATOR.
-  */
+ */
+
 
 public class Book implements Parcelable {
-
-    String author;
-    String title;
-
-    public Book(String author, String title) {
-        this.author = author;
-        this.title = title;
-    }
-
-    protected Book(Parcel in) {
-        author = in.readString();
-        title = in.readString();
-    }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
         @Override
@@ -38,6 +28,18 @@ public class Book implements Parcelable {
             return new Book[size];
         }
     };
+    String author;
+    String title;
+
+    public Book(String author, String title) {
+        this.author = author;
+        this.title = title;
+    }
+
+    protected Book(Parcel in) {
+        author = in.readString();
+        title = in.readString();
+    }
 
     public String getAuthor() {
         return author;
